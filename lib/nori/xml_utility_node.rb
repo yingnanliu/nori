@@ -135,6 +135,7 @@ class Nori
         if t.is_a?(String)
           t = StringWithAttributes.new(t)
           t.attributes = attributes
+          t = t.to_hash if @options[:string_with_attributes] && t.attributes != {}
         end
 
         return { name => t }

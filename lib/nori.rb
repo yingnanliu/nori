@@ -19,7 +19,8 @@ class Nori
       :delete_namespace_attributes  => false,
       :convert_tags_to              => nil,
       :advanced_typecasting         => true,
-      :parser                       => :nokogiri
+      :parser                       => :nokogiri,
+      :string_with_attributes       => false
     }
 
     validate_options! defaults.keys, options.keys

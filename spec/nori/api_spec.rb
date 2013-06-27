@@ -154,6 +154,43 @@ describe Nori do
     end
   end
 
+  context "#parse with :string_with_attributes" do
+    before do
+      @xml  =
+        '<test id="appears">
+          <comment id="doesnt appear">it worked</comment>
+          <comment>see!</comment>
+          <comment />
+        </test>'
+    end
+
+    it "returns only text" do
+      hash = nori(:string_with_attributes => false).parse(@xml)
+
+      hash.should == {
+        "test" => {
+          "@id" => "appears",
+          "comment" =>
+          ["it worked", "see!", nil]
+        }
+      }
+    end
+
+    it "returns with attributes" do
+      hash = nori(:string_with_attributes => true).parse(@xml)
+
+      hash.should == {
+        "test" => {
+          "@id" => "appears",
+          "comment" => [
+            {"@id" => "doesnt appear", "_text" => "it worked"},
+            "see!",nil
+          ]
+        }
+      }
+    end
+  end
+
   def nori(options = {})
     Nori.new(options)
   end
